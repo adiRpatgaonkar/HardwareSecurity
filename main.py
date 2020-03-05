@@ -82,7 +82,7 @@ def get_transformed_data(dataset):
 
 def grid_search_hyp(model, dataset):
      ## Grid search hyper parameters
-    hidden_layer_sizes = [(10, 10), (100, 100)] #, (200, 200), 
+    hidden_layer_sizes = [(10, 10), (100, 100)]#, (200, 200), 
                         #(300, 300), (400, 400)]
     param_grid = dict(hidden_layer_sizes=hidden_layer_sizes)
     grid = GridSearchCV(estimator=model, param_grid=param_grid, 
@@ -120,16 +120,15 @@ def main():
     # show_data_info(trainset, data=True, shape=True)
     # show_data_info(validset, data=True, shape=True)
 
-    ## Model
+    # Model
     print("Creating model ... ", end="")
     net = MLPClassifier(solver='sgd', alpha=1e-5, 
                         hidden_layer_sizes=(10, 10),
-                        max_iter=200, 
-                        random_state=1,
+                        max_iter=200, random_state=1,
                         verbose=True)
     print("done.")
 
-    ## Grid search hyper parameters
+    # ## Grid search hyper parameters
     # grid_result = grid_search_hyp(net, dataset)
     # print("Grid searching hyper parameters done.\nSummary:")
 
@@ -146,16 +145,16 @@ def main():
     # print("K = {}: {:2f} (+/- {:2f}) for params: {}".format(n_folds,
     #                                                         means[idx],
     #                                                         stds[idx],
-    #
+    
     #                                                         params[idx]))
     
     ## Train on the best hyperparmameters
     # net.hidden_layer_sizes = params[idx]['hidden_layer_sizes']
     ## To skip grid search
-    # net.hidden_layer_sizes = (300, 300)
-    # print("Training model ... ")
-    # net = train(net, dataset, save=True, fname=filename)
-    # print("Training finished")
+    net.hidden_layer_sizes = (300, 300)
+    print("Training model ... ")
+    net = train(net, dataset, save=True, fname=filename)
+    print("Training finished")
 
     ## Load trained model
     print("Loading model from {} ... ".format(filename), end="")
@@ -172,7 +171,10 @@ def main():
     
     ## Predictions on dataset & corresponding "Confusion Matrix"
     preds = net.predict(dataset['data'])
-    # print(confusion_matrix(dataset['label'], preds))
+
+    ## To plot
+    ## https://stackoverflow.com/questions/19233771/sklearn-plot-confusion-matrix-with-labels
+    print(confusion_matrix(dataset['label'], preds))
 
     ## Inference the trained model
     print("Processing -- secret.wav ... ")
