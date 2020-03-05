@@ -3,7 +3,8 @@
 # Created by Aditya Patgaonkar
 # 03/03/2020
 #
-# Updates the years a farmer market was active
+# Train key stroke prediction model
+# using processed .wav files
 #
 # Usage:python main_1.py
 #
